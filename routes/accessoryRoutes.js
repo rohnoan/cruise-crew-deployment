@@ -14,9 +14,9 @@ router.get('/', async (req, res) => {
 });
 
 // Get renter's accessories (only their own accessories)
-router.get('/seller', authenticate(['renter']), async (req, res) => {
+router.get('/renter', authenticate(['renter']), async (req, res) => {
     try {
-        const accessories = await Accessory.find({ seller: req.user.id });
+        const accessories = await Accessory.find({ renter: req.user.id });
         res.json(accessories || []); // Return empty array if no accessories
     } catch (error) {
         res.json([]); // Return empty array instead of error
@@ -33,7 +33,7 @@ router.get('/search', async (req, res) => {
 // Create accessory (only renter)
 router.post('/', authenticate(['renter']), async (req, res) => {
     try {
-        const accessory = new Accessory({ ...req.body, seller: req.user.id });
+        const accessory = new Accessory({ ...req.body, renter: req.user.id });
         await accessory.save();
         res.status(201).json(accessory);
     } catch (error) {
@@ -51,7 +51,7 @@ router.put('/:id', authenticate(['renter']), async (req, res) => {
 // Delete accessory (only renter & only their own accessories)
 router.delete('/:id', authenticate(['renter']), async (req, res) => {
     try {
-        const accessory = await Accessory.findOne({ _id: req.params.id, seller: req.user.id });
+        const accessory = await Accessory.findOne({ _id: req.params.id, renter: req.user.id });
         if (!accessory) {
             return res.status(404).json({ message: 'Accessory not found or unauthorized' });
         }

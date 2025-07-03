@@ -13,10 +13,10 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Get seller's bikes (only their own bikes)
-router.get('/seller', authenticate(['renter']), async (req, res) => {
+// Get renter's bikes (only their own bikes)
+router.get('/renter', authenticate(['renter']), async (req, res) => {
     try {
-        const bikes = await Bike.find({ seller: req.user.id });
+        const bikes = await Bike.find({ renter: req.user.id });
         res.json(bikes || []); // Return empty array if no bikes
     } catch (error) {
         res.json([]); // Return empty array instead of error
@@ -33,7 +33,7 @@ router.get('/search', async (req, res) => {
 // Create bike (only renter)
 router.post('/', authenticate(['renter']), async (req, res) => {
     try {
-        const bike = new Bike({ ...req.body, seller: req.user.id });
+        const bike = new Bike({ ...req.body, renter: req.user.id });
         await bike.save();
         res.status(201).json(bike);
     } catch (error) {
@@ -51,7 +51,7 @@ router.put('/:id', authenticate(['renter']), async (req, res) => {
 // Delete bike (only renter & only their own bikes)
 router.delete('/:id', authenticate(['renter']), async (req, res) => {
     try {
-        const bike = await Bike.findOne({ _id: req.params.id, seller: req.user.id });
+        const bike = await Bike.findOne({ _id: req.params.id, renter: req.user.id });
         if (!bike) {
             return res.status(404).json({ message: 'Bike not found or unauthorized' });
         }

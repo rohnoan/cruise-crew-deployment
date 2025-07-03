@@ -6,7 +6,7 @@ const accessorySchema = new mongoose.Schema({
     price: Number,
     category: String,
     image: String,
-    seller: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+    renter: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 });
 
 module.exports = mongoose.model('Accessory', accessorySchema); 

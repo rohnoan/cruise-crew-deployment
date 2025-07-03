@@ -30,4 +30,4 @@ mongoose.connect(process.env.MONGO_URI)
     })
     .catch(err => console.error(err));
 
-const API_URL = 'https://cruise-crew-deployment.onrender.com';
+const API_URL = 'https://cruise-crew-deployment.onrender.com/api';
