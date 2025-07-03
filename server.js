@@ -7,7 +7,7 @@ const app = express();
 
 // CORS with all origins and common methods
 app.use(cors({
-    origin: '*',
+    origin: ['https://cruise-crew.vercel.app/'], 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
@@ -29,3 +29,5 @@ mongoose.connect(process.env.MONGO_URI)
         app.listen(PORT, '0.0.0.0', () => console.log(`Server running on ${PORT}`));
     })
     .catch(err => console.error(err));
+
+const API_URL = 'https://cruise-crew-deployment.onrender.com';
